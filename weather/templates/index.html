@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather App</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4, #ffdde1, #fc6076, #ff758c);
+            background-size: 300% 300%;
+            animation: gradientBG 5s infinite alternate;
+            color: #fff;
+            padding: 50px;
+        }
+        @keyframes gradientBG {
+            0% { background-position: left top; }
+            100% { background-position: right bottom; }
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            max-width: 450px;
+            margin: auto;
+            animation: slideIn 1s ease-in-out;
+            backdrop-filter: blur(10px);
+        }
+        @keyframes slideIn {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        input, button {
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: none;
+            margin-top: 10px;
+            transition: all 0.3s ease-in-out;
+        }
+        input {
+            width: 75%;
+            border: 2px solid #fff;
+            background: rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+        input::placeholder {
+            color: #fff;
+        }
+        button {
+            background: #ff416c;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            transition: transform 0.3s ease-in-out;
+        }
+        button:hover {
+            background: #ff758c;
+            transform: scale(1.1);
+        }
+        .weather-result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .error {
+            color: #ffeb3b;
+            font-weight: bold;
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌦 Stunning Weather App 🌈</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <input type="text" name="city" placeholder="Enter City Name" required>
+            <button type="submit">🔍 Get Weather</button>
+        </form>
+        <div class="weather-result">
+            {% if weather_data %}
+                {% if weather_data.error %}
+                    <p class="error">⚠️ {{ weather_data.error }}</p>
+                {% else %}
+                    <h2>🌍 Weather in {{ weather_data.city }}</h2>
+                    <p>🌡 Temperature: {{ weather_data.temperature }}°C</p>
+                    <p>☁️ Description: {{ weather_data.description }}</p>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    <div class="footer">
+        <p>Md. Shamim Reja | CSE Department, HSTU, Dinajpur, Bangladesh</p>
+    </div>
+</body>
+</html>
